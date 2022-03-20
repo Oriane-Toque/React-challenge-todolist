@@ -1,9 +1,10 @@
 /**
  * Todolist
  */
-var app = {
+const app = {
   init: function() {
-
+    // eslint-disable-next-line no-undef
+    task.init();
   },
 };
 
