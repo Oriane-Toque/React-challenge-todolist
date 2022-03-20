@@ -1,0 +1,98 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0c6150;
+  padding: 3rem 0;
+}
+
+/* SECTION FORM + TASK LIST */
+.wrapper {
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/* ==================================================== */
+/* ================ SECTION FORMULAIRE ================ */
+form {
+  position: relative;
+  font-size: 1.5rem;
+}
+
+.formTask > label {
+  position: absolute;
+  top: 50%;
+  left: 2rem;
+  transform: translateY(-50%);
+  width: 100%;
+  cursor: none;
+  z-index: -1;
+  text-align: left;
+  color: #fff;
+  transition: all .2s ease-in-out;
+}
+
+.formTask > input {
+  background-color: #02221b7a;
+  padding: 2rem 2rem;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+/* ANIMATION LABEL */
+.formTask > input:focus ~ label,
+.formTask > input:valid ~ label {
+  top: 15px;
+  left: 15px;
+  font-size: .8rem;
+}
+
+/* ==================================================== */
+/* ================ SECTION TODOLIST ================ */
+.todo__title {
+  font-size: 1.5rem;
+  margin: 5rem 0 2rem;
+  text-align: left;
+  color: #fff;
+  padding: 0.5rem 0;
+  border-bottom: solid 1px #fff;
+}
+
+.todo__tasks-task {
+  text-align: left;
+  padding: 1.5rem 1rem;
+  background-color: #d7d7d7;
+  border-radius: 0.3rem;
+  word-spacing: 1rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+
+.todo__tasks-task > input,
+.todo__tasks-task > label {
+  vertical-align: middle;
+}
+
+.todo__tasks-task > input {
+  cursor: pointer;
+}
+
+/* Task completed */
+.task-checked {
+  background-color: #d7d7d779;
+}
+
+.task-checked > label {
+  text-decoration: line-through;
+}
