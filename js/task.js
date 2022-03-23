@@ -12,6 +12,8 @@ const task = {
 
     // création d'une méthode qui applique des écouteurs d'évènements sur toutes les tâches
     task.bindAllEventsListeners();
+    // méthode qui affiche le nbr de tâches en cours
+    task.displayNbrTasksinProgress();
   },
 
   /**
@@ -38,6 +40,9 @@ const task = {
 
     // création d'une méthode qui applique des écouteurs d'évènements sur toutes les tâches
     task.bindAllEventsListeners();
+
+    // méthode qui affiche le nbr de tâches en cours
+    task.displayNbrTasksinProgress();
   },
 
   /**
@@ -53,6 +58,9 @@ const task = {
 
     // je veux l'afficher en fin de liste
     task.displayCompletedTask(taskElement);
+
+    // méthode qui affiche le nbr de tâches en cours
+    task.displayNbrTasksinProgress();
   },
 
   /**
@@ -66,6 +74,7 @@ const task = {
     tasks.forEach(taskValue => {
       // j'applique un écouteur d'évènement au changement d'état de l'input
       const inputTask = taskValue.querySelector('input');
+      // methode pour compléter une tache
       inputTask.addEventListener('change', task.handleCompletedTask);
     });
   },
@@ -117,6 +126,24 @@ const task = {
     // je veux afficher la tache complete en fin de liste
     const todolistContent = completedElement.closest('.todo__tasks');
     todolistContent.append(completedElement);
+  },
+
+  /**
+   * Affiche le nbr de tâches en cours
+   */
+  displayNbrTasksinProgress: function() {
+    // récupération de toutes les tâches
+    const allTasks = document.querySelectorAll('.todo__tasks-task');
+    let tasksInProgress = 0;
+
+    // je parcours toutes les tâches pour vérifier si elles ne sont pas completed
+    allTasks.forEach(task => {
+      return !task.classList.contains('task-checked') ? tasksInProgress++ : false;
+    });
+
+    // affichage dans le DOM
+    const spanNbrTasks = document.querySelector('.todo__title-nbrtasks');
+    spanNbrTasks.textContent = tasksInProgress;
   },
 
   /**
