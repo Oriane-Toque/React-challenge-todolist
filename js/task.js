@@ -1,20 +1,23 @@
 /* eslint-disable no-unused-vars */
 const task = {
+  /**
+   * Initialisation du module task
+   */
   init: function() {
-    console.log('ceci est le module task');
-
-    // step 1 - récupérer le formulaire
-    // step 2 - écouter l'évènement sur le formulaire
-    // step 3 - méthode qui crée une tâche
-    // step 4 - méthode qui affiche la tâche
-    // step 5 - méthode qui réinitialise le form + remet le curseur
 
     const formTask = document.querySelector('.formTask');
     // je mets le focus sur l'input
     formTask.querySelector('input').focus();
     formTask.addEventListener('submit', task.handleAddTask);
+
+    // création d'une méthode qui applique des écouteurs d'évènements sur toutes les tâches
+    task.bindAllEventsListeners();
   },
 
+  /**
+   * Ajout d'une nouvelle tâche
+   * @param {*} evt 
+   */
   handleAddTask: function(evt) {
 
     evt.preventDefault();
@@ -29,12 +32,49 @@ const task = {
     
     // Méthode pour créer une tâche
     const newTaskElement = task.createNewTask(taskValue);
-    // console.log(newTaskElement);
 
     // Méthode qui affiche la tâche dans le DOM
-    task.displayTask(newTaskElement);
+    task.displayNewTask(newTaskElement);
+
+    // création d'une méthode qui applique des écouteurs d'évènements sur toutes les tâches
+    task.bindAllEventsListeners();
   },
 
+  /**
+   * Marquer une tâche comme complète
+   * @param {*} evt 
+   */
+  handleCompletedTask: function(evt) {
+    // je veux changer le style si completed task
+    const inputTask = evt.currentTarget;
+    const taskElement = inputTask.closest('.todo__tasks-task');
+
+    taskElement.classList.add('task-checked');
+
+    // je veux l'afficher en fin de liste
+    task.displayCompletedTask(taskElement);
+  },
+
+  /**
+   * Méthode pour appliquer tous les écouteurs d'évènements
+   * sur toutes les tâches nouvelles ou non
+   */
+  bindAllEventsListeners: function() {
+    // Récupération de toutes les tâches
+    const tasks = document.querySelectorAll('.todo__tasks-task');
+    
+    tasks.forEach(taskValue => {
+      // j'applique un écouteur d'évènement au changement d'état de l'input
+      const inputTask = taskValue.querySelector('input');
+      inputTask.addEventListener('change', task.handleCompletedTask);
+    });
+  },
+
+  /**
+   * Création d'une nouvelle tâche
+   * @param {*} elementValue 
+   * @returns taskElement
+   */
   createNewTask: function(elementValue) {
     
     // Récupération du template
@@ -56,7 +96,11 @@ const task = {
     return newTaskElement;
   },
 
-  displayTask: function(newElement) {
+  /**
+   * Affiche une nouvelle tâche dans le DOM
+   * @param {*} newElement 
+   */
+  displayNewTask: function(newElement) {
 
     // récupération du conteneur .todo
     const todolistContent = document.querySelector('.todo__tasks');
@@ -65,6 +109,21 @@ const task = {
     todolistContent.prepend(newElement);
   },
 
+  /**
+   * Affiche une tâche complétée dans le DOM
+   * @param {*} completedElement 
+   */
+  displayCompletedTask: function(completedElement) {
+    // je veux afficher la tache complete en fin de liste
+    const todolistContent = completedElement.closest('.todo__tasks');
+    todolistContent.append(completedElement);
+  },
+
+  /**
+   * Réinitialise le formulaire
+   * et remets en place le curseur dedans
+   * @param {*} formElement 
+   */
   clearFormTask: function(formElement) {
 
     formElement.reset();
