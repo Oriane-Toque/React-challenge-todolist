@@ -86,6 +86,10 @@ const app = {
     form.reset();
   },
 
+  /**
+   * Changement d'état de la checkbox
+   * @param {*} evt 
+   */
   handleTaskChange: function (evt) {
 
     const input = evt.currentTarget;
