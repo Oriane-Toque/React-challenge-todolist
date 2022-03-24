@@ -46,12 +46,14 @@ const app = {
   createCounter: function () {
     const title = document.createElement('div');
     title.className = 'todo__title';
-    title.textContent = 'tâches en cours';
+    title.textContent = ' tâches en cours';
 
-    const counter = document.createElement('span');
-    counter.className = 'todo__title-nbrtasks';
+    app.counter = document.createElement('span');
+    app.counter.className = 'todo__title-nbrtasks';
 
-    title.prepend(counter);
+    app.setCounterValue();
+
+    title.prepend(app.counter);
     app.container.append(title);
   },
 
@@ -84,6 +86,22 @@ const app = {
     form.reset();
   },
 
+  handleTaskChange: function (evt) {
+
+    const input = evt.currentTarget;
+    if(input.checked) {
+      input.closest('.todo__tasks-task').classList.add('task-completed');
+      // positionne en bas de liste la tache complétée
+      app.list.append(input.closest('.todo__tasks-task'));
+    } else {
+      input.closest('.todo__tasks-task').classList.remove('task-completed');
+      // repositionne en tête de liste la tache
+      app.list.prepend(input.closest('.todo__tasks-task'));
+    }
+
+    app.setCounterValue();
+  },
+
   /* ================== FONCTIONNALITES - METHODS ================== */
 
   /**
@@ -93,7 +111,6 @@ const app = {
     const item = document.createElement('li');
     item.className = 'todo__tasks-task';
 
-    // TODO gérer l'id de tâche pour qu'il soit unique
     const nbTasks = document.querySelectorAll('ul li.todo__tasks-task').length;
     const idTask = `task-${nbTasks+1}`;
 
@@ -102,14 +119,26 @@ const app = {
     input.id = idTask;
 
     const label = document.createElement('label');
-    // TODO utiliser le contenu de l'input
     label.textContent = taskLabel;
     label.setAttribute('for', idTask);
+
+    // evenement change
+    input.addEventListener('change', app.handleTaskChange);
 
     item.append(input);
     item.append(label);
     app.list.append(item);
+
+    app.setCounterValue();
   },
+
+  /**
+   * Set le compteur de tâche en cours
+   */
+  setCounterValue: function() {
+    const nbTasksNotDone = document.querySelectorAll('ul li.todo__tasks-task:not(.task-completed)').length;
+    app.counter.textContent = nbTasksNotDone > 0 ? nbTasksNotDone : 'Aucunes';
+  }
 };
 
 
