@@ -11,6 +11,7 @@ const app = {
 
     app.createForm();
     app.createCounter();
+    app.createTaksList();
   },
   /**
    * Création du formulaire
@@ -21,7 +22,7 @@ const app = {
 
     const input = document.createElement('input');
     input.type = 'text';
-    input.setAttribute('id', 'task');
+    input.id = 'task';
     input.setAttribute('required', 'required');
     input.setAttribute('name', 'task');
 
@@ -37,7 +38,7 @@ const app = {
   /**
    * Création du compteur
    */
-  createCounter: function() {    
+  createCounter: function() {
     const title = document.createElement('div');
     title.className = 'todo__title';
     title.textContent = 'tâches en cours';
@@ -47,6 +48,35 @@ const app = {
 
     title.prepend(counter);
     app.container.append(title);
+  },
+
+  /**
+   * Création de la liste
+   */
+  createTaksList: function() {
+    const list = document.createElement('ul');
+    list.className = 'todo__tasks';
+
+    for(let i = 0; i < 3; i++) {
+      const item = document.createElement('li');
+      item.className = 'todo__tasks-task';
+
+      const idTask = 'checkbox-' + i;
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.id = idTask;
+      
+      const label = document.createElement('label');
+      label.textContent = 'Coder en React';
+      label.setAttribute('for', idTask);
+
+      item.appendChild(input);
+      item.appendChild(label);
+      list.appendChild(item);
+    }
+
+    app.container.append(list);
   }
 };
 

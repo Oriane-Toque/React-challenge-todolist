@@ -109,7 +109,7 @@ input:-webkit-autofill:active {
 
 /* Task completed */
 .task-checked {
-  background-color: #d7d7d779;
+  opacity: .4;
 }
 
 .task-checked > label {
