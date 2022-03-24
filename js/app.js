@@ -5,20 +5,25 @@ const app = {
   /**
    * Initialisation de l'application todolist
    */
-  init: function() {
-    // task.init();
+  init: function () {
     app.container = document.getElementById('todo');
 
+    // création des blocks de la todolist
     app.createForm();
     app.createCounter();
     app.createTaksList();
   },
+
+  /* ================== CREATION DES BLOCKS ET ITEMS ================== */
+
   /**
    * Création du formulaire
    */
-  createForm: function() {
+  createForm: function () {
     const form = document.createElement('form');
     form.className = 'formTask';
+
+    form.addEventListener('submit', app.handleFormSubmit);
 
     const input = document.createElement('input');
     input.type = 'text';
@@ -38,7 +43,7 @@ const app = {
   /**
    * Création du compteur
    */
-  createCounter: function() {
+  createCounter: function () {
     const title = document.createElement('div');
     title.className = 'todo__title';
     title.textContent = 'tâches en cours';
@@ -53,31 +58,58 @@ const app = {
   /**
    * Création de la liste
    */
-  createTaksList: function() {
-    const list = document.createElement('ul');
-    list.className = 'todo__tasks';
+  createTaksList: function () {
+    app.list = document.createElement('ul');
+    app.list.className = 'todo__tasks';
 
-    for(let i = 0; i < 3; i++) {
-      const item = document.createElement('li');
-      item.className = 'todo__tasks-task';
+    app.container.append(app.list);
+  },
 
-      const idTask = 'checkbox-' + i;
+  /* ================== FONCTIONNALITES - HANDLES ================== */
 
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.id = idTask;
-      
-      const label = document.createElement('label');
-      label.textContent = 'Coder en React';
-      label.setAttribute('for', idTask);
+  /**
+   * Gestion de la soumission du formulaire
+   * @param {*} evt 
+   */
+  handleFormSubmit: function (evt) {
+    // je stoppe le comportement par défaut
+    evt.preventDefault();
 
-      item.appendChild(input);
-      item.appendChild(label);
-      list.appendChild(item);
-    }
+    const form = evt.currentTarget;
 
-    app.container.append(list);
-  }
+    const taskValue = form.querySelector('input').value;
+    app.addTask(taskValue);
+
+    // réinitialise le formulaire
+    form.reset();
+  },
+
+  /* ================== FONCTIONNALITES - METHODS ================== */
+
+  /**
+   * Ajout d'une tâche
+   */
+  addTask: function (taskLabel) {
+    const item = document.createElement('li');
+    item.className = 'todo__tasks-task';
+
+    // TODO gérer l'id de tâche pour qu'il soit unique
+    const nbTasks = document.querySelectorAll('ul li.todo__tasks-task').length;
+    const idTask = `task-${nbTasks+1}`;
+
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.id = idTask;
+
+    const label = document.createElement('label');
+    // TODO utiliser le contenu de l'input
+    label.textContent = taskLabel;
+    label.setAttribute('for', idTask);
+
+    item.append(input);
+    item.append(label);
+    app.list.append(item);
+  },
 };
 
 

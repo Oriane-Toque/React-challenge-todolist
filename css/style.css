@@ -108,10 +108,10 @@ input:-webkit-autofill:active {
 }
 
 /* Task completed */
-.task-checked {
+.task-completed {
   opacity: .4;
 }
 
-.task-checked > label {
+.task-completed > label {
   text-decoration: line-through;
 }
