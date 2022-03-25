@@ -6,6 +6,7 @@ Programmation déclarative :
   - les données pilotent l'affichage
   - quand on veut changer quelque chose sur l'affichage : on modifie les données, pas directement le DOM, 
   et on reconstruit complètement l'affichage à partir des données (=> pas d'état d'intermédiaire à gérer)
+  - rechargement du DOM : pertes au niveau de la performance
 */
 
 const app = {
@@ -24,7 +25,7 @@ const app = {
   ],
 
   init: function () {
-    console.log('coucou mes tâches : ', ...app.tasks);
+    // console.log('coucou mes tâches : ', ...app.tasks);
 
     app.container = document.getElementById('todo');
 
@@ -97,6 +98,10 @@ const app = {
 
   /* ================== FONCTIONNALITES - HANDLES ================== */
 
+  /**
+   * Gestion soumission formulaire
+   * @param {*} evt 
+   */
   handleFormSubmit: function (evt) {
     evt.preventDefault();
 
@@ -112,6 +117,27 @@ const app = {
     // je pousse dans mon tableau
     app.tasks.push(newTask);
     // on reconstruit l'affichage
+    app.init();
+  },
+
+  /**
+   * Changement de statut de tache
+   * @param {*} evt 
+   */
+  handleTaskChange: function (evt) {
+    const item = evt.currentTarget.closest('.todo__tasks-task');
+    item.classList.toggle('task-completed');
+
+    const itemId = evt.currentTarget.id;
+    const taskId = itemId[itemId.search('[\\d+]')];
+
+    // je change le statut de la tache
+    const taskDone = app.tasks.find(task => task.id === parseInt(taskId));
+    taskDone.done = taskDone.done === true ? false : true;
+
+    // mise à jour du tableau
+    app.tasks.splice(taskId - 1, 1, taskDone);
+
     app.init();
   },
 
@@ -157,7 +183,9 @@ const app = {
 
     item.append(input);
     item.append(label);
-    app.list.append(item);
+    // si tache complete en bas de liste
+    // sinon en haut de liste
+    input.checked ? app.list.append(item) : app.list.prepend(item);
 
     app.setCounterValue();
   },
