@@ -1,6 +1,6 @@
 # Challenge révisions JS - Todolist
 
-Petit challenge de révision avant de rentrer dans le vif du sujet avec React, une petite application **todolist**, sans API REST et sans back end. Petit projet full JS.
+Petit challenge de révision avant de rentrer dans le vif du sujet avec React, une petite application **todolist**, sans API REST et sans back end. Petit projet full JS. Challenge uniquement en programmation impérative. Dernière branche codée en programmation déclarative (cours).
 
 **Fonctionnalités :**
 * Ajout d'une tâche
